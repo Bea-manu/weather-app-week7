@@ -1,3 +1,7 @@
+body {
+    background: #f9f7f9;
+
+}
 .weather-app{
     background: white;
     max-width: 600px;
