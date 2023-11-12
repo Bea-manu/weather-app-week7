@@ -1,43 +1,54 @@
-function handlesearchSubmit(event){
-    event.preventDefault();
-    let searchInput = document.querySelector("#search-form-input");
-    let cityElement = document.querySelector("#city");
-    cityElement.innerHTML = searchInput.value;
+function handlesearchSubmit(event) {
+  event.preventDefault();
+  let searchInput = document.querySelector("#search-form-input");
+
+  searchCity(searchInput.value);
 }
 
 let searchFormElement = document.querySelector("#search-form-input");
-searchFormElement.addEventListener("submit",handlesearchSubmit);
+searchFormElement.addEventListener("submit", handlesearchSubmit);
 
-function searchcity(city){
-    let apiKey="8f0ab40o57b12e2t3b934b3b4137cfbc";
-    let apiUrl="https://api.shecodes.io/weather/v1/current?query=${city}&key=${8f0ab40o57b12e2t3b934b3b4137cfbc}$unit=metric";
-   axios.get(apiUrl).then(updateWeather);
-}
-function updateWeather(response){
-    let temperatureElement = document.querySelector("#temperature");
-    let tempreture = response.data.temperature.current;
-    let cityElement = document.querySelector("#city");
-    let descriptionElement = document.querySelector("#description");
-    let humidityElement = docment.querySelector("#humidity");
-    let windspeedElement = document.querySelector("#windspeed");
-    let timeElement = document.querySelector("#time");
-    let date = new data(response.data.time * 1000);
+searchCity("Paris")
 
+function searchCity(city) {
+    let apiKey = "8f0ab40o57b12e2t3b934b3b4137cfbc";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit="metric"`;
+    axios.get(apiUrl).then(updateWeather);
 }
+
+
+function updateWeather(response) {
+  let temperatureElement = document.querySelector("#temperature");
+  let temperature = response.data.temperature.current;
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = docment.querySelector("#humidity");
+  let windspeedElement = document.querySelector("#windspeed");
+  let timeElement = document.querySelector("#time");
+  let date = new data(response.data.time * 1000);
 
 cityElement.innerHTML = response.data.city;
 timeElement.innerHTML = formatDate(date);
 descriptionElement.innerHTML = response.data.condition.description;
 humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
 windspeedElement.innerHTML = `${response.data.windspeed}km/h`;
-temperatureElement.innerHTML = math.round(temperature); 
- 
-function formatDate(date){
-    let minutes = date.getMinutes;
-    let hours = date.getHours;
-    let days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday", "Friday","Saturday"];
-    let day = days[date.getDay()];
+temperatureElement.innerHTML = Math.round(temperature);
+}
+
+function formatDate(date) {
+  let minutes = date.getMinutes;
+  let hours = date.getHours;
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[date.getDay()];
 }
 
 return `${day},${hours}:${minutes}`;
-if(minutes <10) minutes="o${minutes}";
+if (minutes < 10) minutes = `0${minutes}`;
