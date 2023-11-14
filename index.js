@@ -8,35 +8,32 @@ function handlesearchSubmit(event) {
 let searchFormElement = document.querySelector("#search-form-input");
 searchFormElement.addEventListener("submit", handlesearchSubmit);
 
-searchCity("Paris")
+searchCity("Paris");
 
 function searchCity(city) {
-    let apiKey = "8f0ab40o57b12e2t3b934b3b4137cfbc";
-    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&unit="metric"`;
-    axios.get(apiUrl).then(updateWeather);
+  let apiKey = "8f0ab40o57b12e2t3b934b3b4137cfbc";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit="metric"`;
+  axios.get(apiUrl).then(updateWeather);
 }
-
 
 function updateWeather(response) {
   let temperatureElement = document.querySelector("#temperature");
   let temperature = response.data.temperature.current;
   let cityElement = document.querySelector("#city");
   let descriptionElement = document.querySelector("#description");
-  let humidityElement = docment.querySelector("#humidity");
+  let humidityElement = document.querySelector("#humidity");
   let windspeedElement = document.querySelector("#windspeed");
   let timeElement = document.querySelector("#time");
-  let date = new data(response.data.time * 1000);
-   let iconElement = document.querySelector("#icon");
+  let date = new Date(response.data.time * 1000);
 
-
-cityElement.innerHTML = response.data.city;
-timeElement.innerHTML = formatDate(date);
-descriptionElement.innerHTML = response.data.condition.description;
-humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
-windspeedElement.innerHTML = `${response.data.windspeed}km/h`;
-temperatureElement.innerHTML = Math.round(temperature);
-iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
+  cityElement.innerHTML = response.data.city;
+  timeElement.innerHTML = formatDate(date);
+  descriptionElement.innerHTML = response.data.condition.description;
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  windspeedElement.innerHTML = `${response.data.windspeed}km/h`;
+  temperatureElement.innerHTML = Math.round(temperature);
 }
+
 function formatDate(date) {
   let minutes = date.getMinutes();
   let hours = date.getHours();
@@ -50,10 +47,12 @@ function formatDate(date) {
     "Saturday",
   ];
   let day = days[date.getDay()];
-
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
 
-  return `${day} ${hours}:${minutes}`;
+  return `${day},${hours}:${minutes}`;
 }
